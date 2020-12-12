@@ -10,6 +10,8 @@
   },
   "dependencies": {
     "core-js": "^3.6.5",
+    "firebase": "^8.2.0",
+    "firebase-tools": "^8.19.0",
     "nuxt": "^2.14.6"
   },
   "devDependencies": {
