@@ -29,11 +29,11 @@
   - create a project at firebase console named EssayShares on Chrome
     - add firebase to a web app //ウェブアプリに Firebase を追加
     - set firebase hosting //このアプリの Firebse Hosting も設定します。
-  - yarn add firebase
-  - yarn add firebase-tools
-  - yarn generate
-  - firebase login
-  - firebase init
+  - \$ yarn add firebase
+  - \$ yarn add firebase-tools
+  - \$ yarn generate
+  - \$ firebase login
+  - \$ firebase init
     - check only hosting, set public folder as "dist"
       - ? Which Firebase CLI features do you want to set up for this folder? Press Space to select features, then Ent
         er to confirm your choices. Hosting: Configure and deploy Firebase Hosting sites
@@ -42,3 +42,4 @@
       - ? What do you want to use as your public directory? dist
       - ? Configure as a single-page app (rewrite all urls to /index.html)? No
       - ? File dist/index.html already exists. Overwrite? No
+  - \$ firebase deploy
