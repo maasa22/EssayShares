@@ -5,38 +5,29 @@
       <!-- {{ essays }} -->
       <div class="posts" v-for="essay in essays" :key="essay.id">
         <div class="post">
-            <v-card
-    class="mx-auto"
-    color="#26c6da"
-    dark
-    max-width="400"
-      >
-    <v-card-title>
-      <v-icon
-        large
-        left
-      >
-        mdi-chart-bubble
-      </v-icon>
-      <span class="title font-weight-light">topic{{ essay.topicNum }}</span>
-      <v-row
-          align="center"
-          justify="end"
-        >
-          <v-icon class="mr-1">
-            mdi-square
-          </v-icon>
-          <span class="subheading mr-2">{{ essay.scoreSelf }}</span>
-        </v-row>
-    </v-card-title>
+          <v-card class="mx-auto" color="#26c6da" dark max-width="400">
+            <v-card-title>
+              <v-icon large left>
+                mdi-chart-bubble
+              </v-icon>
+              <span class="title font-weight-light"
+                >topic {{ essay.topicNum }}</span
+              >
+              <v-row align="center" justify="end">
+                <v-icon class="mr-1">
+                  mdi-square
+                </v-icon>
+                <span class="subheading mr-2">{{ essay.scoreSelf }}</span>
+              </v-row>
+            </v-card-title>
 
-    <v-card-text class="headline font-weight-bold">
-      "{{ essay.essay | formatEssay }}"
-    </v-card-text>
+            <v-card-text class="headline font-weight-bold">
+              "{{ essay.essay | formatEssay }}"
+            </v-card-text>
 
-    <v-card-actions>
-      <v-list-item class="grow">
-        <!-- <v-list-item-avatar color="grey darken-3">
+            <v-card-actions>
+              <v-list-item class="grow">
+                <!-- <v-list-item-avatar color="grey darken-3">
           <v-img
             class="elevation-6"
             alt=""
@@ -44,12 +35,14 @@
           ></v-img>
         </v-list-item-avatar> -->
 
-        <v-list-item-content>
-          <v-list-item-title>{{ essay.author }}</v-list-item-title>
-           <v-list-item-title> {{ essay.postDateTime | formatDate }}</v-list-item-title>
-        </v-list-item-content>
+                <v-list-item-content>
+                  <v-list-item-title>{{ essay.author }}</v-list-item-title>
+                  <v-list-item-title>
+                    {{ essay.postDateTime | formatDate }}</v-list-item-title
+                  >
+                </v-list-item-content>
 
-        <!-- <v-row
+                <!-- <v-row
           align="center"
           justify="end"
         >
@@ -63,9 +56,9 @@
           </v-icon>
           <span class="subheading">13</span>
         </v-row> -->
-      </v-list-item>
-    </v-card-actions>
-  </v-card>
+              </v-list-item>
+            </v-card-actions>
+          </v-card>
           <!-- <p>{{ essay.author }}</p>
           <p>{{ essay.essay }}</p>
           <p>{{ essay.postDateTime }}</p>
@@ -81,7 +74,7 @@ import firebase from "@/plugins/firebase";
 export default {
   data() {
     return {
-      essays: [],
+      essays: []
     };
   },
   methods: {
@@ -91,16 +84,16 @@ export default {
         .firestore()
         .collection("essays")
         .get()
-        .then((snapshot) => {
-          snapshot.forEach((doc) => {
+        .then(snapshot => {
+          snapshot.forEach(doc => {
             console.log(doc.id, "=>", doc.data());
             this.essays.push(doc.data());
           });
         })
-        .catch((err) => {
+        .catch(err => {
           console.log("Error getting documents", err);
         });
-    },
+    }
   },
   mounted() {
     this.fetchEssays();
@@ -116,16 +109,16 @@ export default {
       let sec = ("00" + a.getSeconds()).slice(-2);
       let time = year + "/" + month + "/" + date + " " + hour + ":" + min;
       return time;
-    }
-    ,formatEssay: function(value){
-      const shortEssayLength = 140
+    },
+    formatEssay: function(value) {
+      const shortEssayLength = 140;
       if (value.length <= shortEssayLength) {
-        return value
-      }else{
-        return value.substr(0, shortEssayLength-1) + "..."
+        return value;
+      } else {
+        return value.substr(0, shortEssayLength - 1) + "...";
       }
     }
-  },
+  }
 };
 </script>
 

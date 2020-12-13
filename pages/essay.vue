@@ -4,29 +4,30 @@
     <v-container>
       <v-row class="grey lighten-3">
         <v-col
-          cols="3"
-          sm="3"
-          md="3"
+          cols="6"
+          sm="4"
+          md="4"
           lg="2"
           xl="2"
           class="color1"
-          v-for="feed in feeds"
-          :key="feed.id"
+          v-for="topicNum in topicNums"
+          :key="topicNum.id"
         >
           <v-card
             class="mx-auto"
             color="#26c6da"
             dark
             max-width="400"
-            style="height: 120px"
+            style="height: 140px"
           >
             <div>
-              <p class="topicNum">topic{{ feed }}</p>
+              <p class="topicNum">topic {{ topicNum }}</p>
             </div>
             <div>
               <p class="topic">
-                university purpose hoge hoge hoge hoge hoge hoge hoge hoge hoge
-                hoge hoge hoge
+                <!-- university purpose hoge hoge hoge hoge hoge hoge hoge hoge hoge
+                hoge hoge hoge -->
+                {{ essayTopics[topicNum - 1]["topic"] }}
               </p>
             </div>
           </v-card>
@@ -36,12 +37,17 @@
   </div>
 </template>
 <script>
+import essayTopicsJson from "../static/csv/essayTopics";
 export default {
   data() {
     return {
-      feeds: [1] * 35
+      topicNums: Array(185)
+        .fill(0)
+        .map((v, i) => i + 1), // [1,2,3,4,,,185], なぜか [1]*185でも上手くいく模様。
+      essayTopics: essayTopicsJson
     };
-  }
+  },
+  mounted() {}
 };
 </script>
 <style scoped>
@@ -53,14 +59,13 @@ export default {
 .topicNum {
   text-align: left;
   font-size: 20px;
-  height: 40px;
-  padding: 10px;
+  padding: 10px 0px 0px 10px;
 }
 
 .topic {
   font-size: 14px;
-  height: 50px;
-  padding: 10px;
+  height: 60px;
+  padding: 0px 8px 0px 8px;
   overflow: hidden;
   /* white-space: nowrap; */
   text-overflow: ellipsis;
