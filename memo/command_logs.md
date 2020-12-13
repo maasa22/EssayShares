@@ -48,3 +48,5 @@
 
 - create a database with test mode //データベースの作成
 - create plugins/firebase.js //プロジェクトを設定 > 全般 > Firebase SDK snippet > CDN
+- create a python script
+  - https://qiita.com/yusukeito58/items/c77feaa25fbbe37e9953
