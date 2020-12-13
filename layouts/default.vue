@@ -47,15 +47,20 @@ export default {
       drawer: false,
       fixed: false,
       items: [
-        {
-          icon: "mdi-apps",
-          title: "Welcome",
-          to: "/",
-        },
+        // {
+        //   icon: "mdi-apps",
+        //   title: "Welcome",
+        //   to: "/",
+        // },
         {
           icon: "mdi-chart-bubble",
           title: "Timeline",
           to: "/timeline",
+        },
+         {
+          icon: "mdi-chart-bubble",
+          title: "Essay",
+          to: "/essay",
         },
       ],
       miniVariant: false,

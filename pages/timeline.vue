@@ -10,7 +10,7 @@
     color="#26c6da"
     dark
     max-width="400"
-  >
+      >
     <v-card-title>
       <v-icon
         large
@@ -18,7 +18,7 @@
       >
         mdi-chart-bubble
       </v-icon>
-      <span class="title font-weight-light">essay{{ essay.topicNum }}</span>
+      <span class="title font-weight-light">topic{{ essay.topicNum }}</span>
       <v-row
           align="center"
           justify="end"
