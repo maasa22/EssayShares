@@ -54,12 +54,12 @@ export default {
         },
         {
           icon: "mdi-chart-bubble",
-          title: "Inspire",
-          to: "/inspire",
+          title: "Timeline",
+          to: "/timeline",
         },
       ],
       miniVariant: false,
-      title: "Vuetify.js",
+      title: "EssayShares",
     };
   },
 };
