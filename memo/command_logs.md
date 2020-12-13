@@ -43,3 +43,8 @@
       - ? Configure as a single-page app (rewrite all urls to /index.html)? No
       - ? File dist/index.html already exists. Overwrite? No
   - \$ firebase deploy
+
+### add database
+
+- create a database with test mode //データベースの作成
+- create plugins/firebase.js //プロジェクトを設定 > 全般 > Firebase SDK snippet > CDN
