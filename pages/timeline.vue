@@ -36,7 +36,7 @@
         </v-list-item-avatar> -->
 
                 <v-list-item-content>
-                  <v-list-item-title>{{ essay.author }}</v-list-item-title>
+                  <v-list-item-title>{{ essay.displayName }}</v-list-item-title>
                   <v-list-item-title>
                     {{ essay.createdAt | formatDate }}</v-list-item-title
                   >
@@ -127,8 +127,32 @@ export default {
         .get()
         .then(snapshot => {
           snapshot.forEach(doc => {
+            // console.log("hoge");
+            // console.log(doc.id);
+            // console.log(doc.data());
+            this.fetchEssayAuthors(doc);
             // console.log(doc.id, "=>", doc.data());
-            this.essays.push(doc.data());
+            // this.essays.push(doc.data());
+          });
+        })
+        .catch(err => {
+          console.log("Error getting documents", err);
+        });
+    },
+    fetchEssayAuthors(doc) {
+      // console.log("hoge");
+      // console.log(doc.id);
+      // console.log(doc.data());
+      firebase
+        .firestore()
+        .collection("users")
+        .get(doc.data().atuhor)
+        .then(snapshot => {
+          snapshot.forEach(doc2 => {
+            let displayName = doc2.data().displayName;
+            let essay = doc.data();
+            essay.displayName = displayName;
+            this.essays.push(essay);
           });
         })
         .catch(err => {
