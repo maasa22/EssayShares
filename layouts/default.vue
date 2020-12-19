@@ -34,7 +34,8 @@
       </v-container>
     </v-main>
     <v-footer :absolute="!fixed" app>
-      <span>&copy; {{ new Date().getFullYear() }} maasa22</span>
+      <!-- <span>&copy; {{ new Date().getFullYear() }} maasa22</span> -->
+      <span>&copy; {{ new Date().getFullYear() }} EssayShares</span>
     </v-footer>
   </v-app>
 </template>

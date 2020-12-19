@@ -128,7 +128,7 @@ export default {
   methods: {
     fetchEssays() {
       //   this.essays = [];
-      console.log(parseInt(this.topicNum));
+      // console.log(parseInt(this.topicNum));
       firebase
         .firestore()
         .collection("essays")
@@ -136,12 +136,7 @@ export default {
         .get()
         .then(snapshot => {
           snapshot.forEach(doc => {
-            // console.log("hoge");
-            // console.log(doc.id);
-            // console.log(doc.data());
             this.fetchEssayAuthors(doc);
-            // console.log(doc.id, "=>", doc.data());
-            // this.essays.push(doc.data());
           });
         })
         .catch(err => {
@@ -149,21 +144,15 @@ export default {
         });
     },
     fetchEssayAuthors(doc) {
-      // console.log("hoge");
-      // console.log(doc.id);
-      // console.log(doc.data());
-      console.log(doc.data().author);
       firebase
         .firestore()
         .collection("users")
         .doc(doc.data().author)
-        //.doc("hogehoge")
         .get()
         .then(doc2 => {
           if (!doc2.exists) {
             console.log("No such document!");
           } else {
-            console.log("Document data:", doc2.data());
             let displayName = doc2.data().displayName;
             let essay = doc.data();
             essay.displayName = displayName;
