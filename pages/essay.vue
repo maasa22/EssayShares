@@ -51,11 +51,6 @@ export default {
 };
 </script>
 <style scoped>
-.tabTitle {
-  margin: 0 auto;
-  text-align: center;
-}
-
 .topicNum {
   text-align: left;
   font-size: 20px;
@@ -66,11 +61,10 @@ export default {
   font-size: 14px;
   height: 60px;
   padding: 0px 8px 0px 8px;
+  /* 複数行で3点リーダー */
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
   overflow: hidden;
-  /* white-space: nowrap; */
-  text-overflow: ellipsis;
 }
-/* .color1 {
-  background-color: #bbdefb;
-} */
 </style>

@@ -7,3 +7,10 @@ export default {
   }
 };
 </script>
+
+<style>
+.tabTitle {
+  margin: 0 auto;
+  text-align: center;
+}
+</style>

@@ -123,10 +123,6 @@ export default {
 </script>
 
 <style scoped>
-.tabTitle {
-  margin: 0 auto;
-  text-align: center;
-}
 .post {
   margin-bottom: 10px;
 }
