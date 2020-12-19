@@ -13,12 +13,12 @@
               <span class="title font-weight-light"
                 >topic {{ essay.topicNum }}</span
               >
-              <v-row align="center" justify="end">
+              <!-- <v-row align="center" justify="end">
                 <v-icon class="mr-1">
                   mdi-square
                 </v-icon>
                 <span class="subheading mr-2">{{ essay.scoreSelf }}</span>
-              </v-row>
+              </v-row> -->
             </v-card-title>
 
             <v-card-text class="headline font-weight-bold">
@@ -38,7 +38,7 @@
                 <v-list-item-content>
                   <v-list-item-title>{{ essay.author }}</v-list-item-title>
                   <v-list-item-title>
-                    {{ essay.postDateTime | formatDate }}</v-list-item-title
+                    {{ essay.createdAt | formatDate }}</v-list-item-title
                   >
                 </v-list-item-content>
 
@@ -61,7 +61,7 @@
           </v-card>
           <!-- <p>{{ essay.author }}</p>
           <p>{{ essay.essay }}</p>
-          <p>{{ essay.postDateTime }}</p>
+          <p>{{ essay.createdAt }}</p>
           <p>{{ essay.topicNum }}</p> -->
         </div>
       </div>
@@ -71,7 +71,7 @@
         dark
         large
         color="teal"
-        @click="postEssay"
+        @click="gotoPostPage"
       >
         <v-icon dark>
           mdi-pencil
@@ -144,7 +144,7 @@ export default {
         }
       });
     },
-    postEssay() {
+    gotoPostPage() {
       if (this.isLogin == true) {
         this.$router.push("/post");
       } else {

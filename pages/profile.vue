@@ -1,10 +1,10 @@
 <template>
-  <div class="profile">
+  <div>
     <h1 class="tabTitle">Profile</h1>
     <div v-if="isWaiting">
       <p>loading...</p>
     </div>
-    <div v-else>
+    <div v-else class="containerCenter">
       <div v-if="!isLogin">
         <GoogleLogin />
       </div>
@@ -129,9 +129,4 @@ export default {
   }
 };
 </script>
-<style scoped>
-.profile {
-  margin: 0 auto;
-  text-align: center;
-}
-</style>
+<style scoped></style>

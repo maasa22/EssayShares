@@ -1,4 +1,11 @@
 .tabTitle {
+  margin: 5px 10px 10px 10px;
+  /* margin: 0 auto; */
+  /* text-align: center; */
+  /* max-width: 400 */
+}
+
+.containerCenter {
   margin: 0 auto;
   text-align: center;
 }
