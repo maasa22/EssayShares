@@ -1,8 +1,15 @@
 <template>
   <div>
     <h1 class="tabTitle">News</h1>
-    <img src="under-construction.jpg" alt="" />
+    <div class="underDeveloping">
+      <img src="under-construction.jpg" alt="" />
+    </div>
   </div>
 </template>
 
-<style scoped></style>
+<style scoped>
+.underDeveloping {
+  margin: 20px auto;
+  text-align: center;
+}
+</style>

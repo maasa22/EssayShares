@@ -55,17 +55,27 @@ export default {
         {
           icon: "mdi-chart-bubble",
           title: "Timeline",
-          to: "/timeline",
+          to: "/timeline"
         },
-         {
+        {
           icon: "mdi-chart-bubble",
           title: "Essay",
-          to: "/essay",
+          to: "/essay"
         },
+        // {
+        //   icon: "mdi-chart-bubble",
+        //   title: "News",
+        //   to: "/news"
+        // },
+        {
+          icon: "mdi-chart-bubble",
+          title: "Profile",
+          to: "/profile"
+        }
       ],
       miniVariant: false,
-      title: "EssayShares",
+      title: "EssayShares"
     };
-  },
+  }
 };
 </script>

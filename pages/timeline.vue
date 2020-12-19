@@ -86,7 +86,7 @@ export default {
         .get()
         .then(snapshot => {
           snapshot.forEach(doc => {
-            console.log(doc.id, "=>", doc.data());
+            // console.log(doc.id, "=>", doc.data());
             this.essays.push(doc.data());
           });
         })
@@ -107,7 +107,8 @@ export default {
       let hour = ("00" + a.getHours()).slice(-2);
       let min = ("00" + a.getMinutes()).slice(-2);
       let sec = ("00" + a.getSeconds()).slice(-2);
-      let time = year + "/" + month + "/" + date + " " + hour + ":" + min;
+      // let time = year + "/" + month + "/" + date + " " + hour + ":" + min;
+      let time = month + "/" + date + " " + hour + ":" + min;
       return time;
     },
     formatEssay: function(value) {
