@@ -1,6 +1,10 @@
 <template>
   <div>
-    <h1 class="tabTitle">Timeline</h1>
+    <h1 class="tabTitle">Topic {{ topicNum }}</h1>
+    <div>
+      <p>{{ essayTopics[topicNum - 1]["topic"] }}</p>
+    </div>
+    <h2>Recent Posts</h2>
     <div class="container1">
       <!-- {{ essays }} -->
       <div class="posts" v-for="essay in essays" :key="essay.id">
@@ -77,7 +81,6 @@
           mdi-pencil
         </v-icon>
       </v-btn>
-
       <v-row justify="center">
         <v-dialog v-model="dialog" persistent max-width="290">
           <v-card>
@@ -105,11 +108,15 @@
 </template>
 
 <script>
+import essayTopicsJson from "static/csv/essayTopics";
 import firebase from "@/plugins/firebase";
+
 export default {
   data() {
     return {
       essays: [],
+      topicNum: this.$route.path.split("topic/")[1],
+      essayTopics: essayTopicsJson,
       isLogin: false,
       dialog: false
     };
@@ -121,9 +128,11 @@ export default {
   methods: {
     fetchEssays() {
       //   this.essays = [];
+      console.log(parseInt(this.topicNum));
       firebase
         .firestore()
         .collection("essays")
+        .where("topicNum", "==", parseInt(this.topicNum))
         .get()
         .then(snapshot => {
           snapshot.forEach(doc => {
@@ -164,19 +173,6 @@ export default {
         .catch(err => {
           console.log("Error getting document", err);
         });
-
-      // .then(snapshot => {
-      //   snapshot.forEach(doc2 => {
-      //     let displayName = doc2.data().displayName;
-      //     let essay = doc.data();
-      //     essay.displayName = displayName;
-      //     console.log(essay);
-      //     this.essays.push(essay);
-      //   });
-      // })
-      // .catch(err => {
-      //   console.log("Error getting documents", err);
-      // });
     },
     checkAuthStatus() {
       firebase.auth().onAuthStateChanged(userAuth => {
@@ -226,7 +222,6 @@ export default {
   }
 };
 </script>
-
 <style scoped>
 .buttonPost {
   position: fixed;

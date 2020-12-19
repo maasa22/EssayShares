@@ -24,10 +24,6 @@ export default {
   text-align: center;
 }
 
-a {
-  text-decoration: none;
-}
-
 .buttonLogin {
   margin: 20px;
 }

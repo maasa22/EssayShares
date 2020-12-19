@@ -9,3 +9,18 @@
   margin: 0 auto;
   text-align: center;
 }
+
+a {
+  text-decoration: none;
+}
+
+.post {
+  margin-bottom: 10px;
+}
+
+.buttonPost {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 1000;
+}

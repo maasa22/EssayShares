@@ -65,7 +65,7 @@ createdAt = datetime.now(JST)
 # createdAt = datetime.fromtimestamp(UNIX時間, JST)
 # createdAt = datetime.datetime.now()
 
-for i in range(2):
+for i in range(8):
     doc_ref = db.collection('essays').document(str(uuid.uuid4().hex))
     doc_ref.set({
         # 'essay': essayList[i],

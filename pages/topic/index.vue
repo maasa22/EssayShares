@@ -13,31 +13,33 @@
           v-for="topicNum in topicNums"
           :key="topicNum.id"
         >
-          <v-card
-            class="mx-auto"
-            color="#26c6da"
-            dark
-            max-width="400"
-            style="height: 140px"
-          >
-            <div>
-              <p class="topicNum">topic {{ topicNum }}</p>
-            </div>
-            <div>
-              <p class="topic">
-                <!-- university purpose hoge hoge hoge hoge hoge hoge hoge hoge hoge
+          <nuxt-link :to="{ path: '/topic/' + topicNum }">
+            <v-card
+              class="mx-auto"
+              color="#26c6da"
+              dark
+              max-width="400"
+              style="height: 140px"
+            >
+              <div>
+                <p class="topicNum">topic {{ topicNum }}</p>
+              </div>
+              <div>
+                <p class="topic">
+                  <!-- university purpose hoge hoge hoge hoge hoge hoge hoge hoge hoge
                 hoge hoge hoge -->
-                {{ essayTopics[topicNum - 1]["topic"] }}
-              </p>
-            </div>
-          </v-card>
+                  {{ essayTopics[topicNum - 1]["topic"] }}
+                </p>
+              </div>
+            </v-card>
+          </nuxt-link>
         </v-col>
       </v-row>
     </v-container>
   </div>
 </template>
 <script>
-import essayTopicsJson from "../static/csv/essayTopics";
+import essayTopicsJson from "static/csv/essayTopics";
 export default {
   data() {
     return {
