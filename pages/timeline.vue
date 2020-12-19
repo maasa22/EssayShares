@@ -143,21 +143,40 @@ export default {
       // console.log("hoge");
       // console.log(doc.id);
       // console.log(doc.data());
+      console.log(doc.data().author);
       firebase
         .firestore()
         .collection("users")
-        .get(doc.data().atuhor)
-        .then(snapshot => {
-          snapshot.forEach(doc2 => {
+        .doc(doc.data().author)
+        //.doc("hogehoge")
+        .get()
+        .then(doc2 => {
+          if (!doc2.exists) {
+            console.log("No such document!");
+          } else {
+            console.log("Document data:", doc2.data());
             let displayName = doc2.data().displayName;
             let essay = doc.data();
             essay.displayName = displayName;
             this.essays.push(essay);
-          });
+          }
         })
         .catch(err => {
-          console.log("Error getting documents", err);
+          console.log("Error getting document", err);
         });
+
+      // .then(snapshot => {
+      //   snapshot.forEach(doc2 => {
+      //     let displayName = doc2.data().displayName;
+      //     let essay = doc.data();
+      //     essay.displayName = displayName;
+      //     console.log(essay);
+      //     this.essays.push(essay);
+      //   });
+      // })
+      // .catch(err => {
+      //   console.log("Error getting documents", err);
+      // });
     },
     checkAuthStatus() {
       firebase.auth().onAuthStateChanged(userAuth => {

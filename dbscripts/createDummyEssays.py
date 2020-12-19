@@ -55,7 +55,7 @@ essayList = [ \
 ]
 topicNumList = [1, 2]
 # authorList = ["Hatanaka Yu", "Ito Shunsuke", "東京 ホテイソン"]
-authorList = ["8f97e799-00a2-4527-88a2-e9baa1875070"]
+authorList = ["8f97e799-00a2-4527-88a2-e9baa1875070", "hogehoge"]
 
 # タイムゾーンの生成
 JST = timezone(timedelta(hours=+9), 'JST')
