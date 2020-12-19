@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="registrationForm">
     <h1 class="tabTitle">User Registration</h1>
     <div v-if="isWaiting">
       <p>loading...</p>
@@ -15,8 +15,8 @@
           required
         ></v-text-field>
         <v-select
-          v-model="toeflCurrentScore"
-          :items="toeflCurrentScoreOption"
+          v-model="toeflWritingCurrentScore"
+          :items="toeflWritingCurrentScoreOption"
           label="TOEFL Writing Current Score"
         ></v-select>
         <!-- <p>
@@ -52,8 +52,8 @@ export default {
       isLogin: false,
       loginUserGoogle: [], //ログインしているユーザーの情報 from google
       displayName: "",
-      toeflCurrentScore: null,
-      toeflCurrentScoreOption: [
+      toeflWritingCurrentScore: null,
+      toeflWritingCurrentScoreOption: [
         0,
         1,
         2,
@@ -96,7 +96,6 @@ export default {
   methods: {
     checkAuthStatus() {
       firebase.auth().onAuthStateChanged(userAuth => {
-        this.isWaiting = false;
         if (userAuth) {
           this.isLogin = true;
           this.loginUserGoogle = userAuth;
@@ -105,6 +104,7 @@ export default {
           this.isLogin = false;
           this.loginUserGoogle = [];
         }
+        this.isWaiting = false;
       });
     },
     fetchUserInfo() {
@@ -127,14 +127,14 @@ export default {
       if (
         !this.displayName ||
         this.displayName.length > 20 ||
-        !this.toeflCurrentScore
+        !this.toeflWritingCurrentScore
       ) {
         this.isValidationError = true;
       } else {
         this.isValidationError = false;
         const data = {
           displayName: this.displayName,
-          toeflCurrentScore: this.toeflCurrentScore,
+          toeflWritingCurrentScore: this.toeflWritingCurrentScore,
           mail: this.loginUserGoogle.email
         };
         // Add a new document in collection "cities" with ID 'LA'
@@ -149,3 +149,9 @@ export default {
   }
 };
 </script>
+<style scoped>
+.registrationForm {
+  margin: 0 auto;
+  text-align: center;
+}
+</style>

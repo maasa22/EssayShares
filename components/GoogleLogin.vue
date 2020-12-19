@@ -2,7 +2,7 @@
   <div class="googleLogin">
     <div class="buttonLogin">
       <v-btn x-large @click="googleLogin"
-        >Googleでログイン <br />または新規登録</v-btn
+        >Sign in with Google account <br />Or Sign up</v-btn
       >
     </div>
   </div>

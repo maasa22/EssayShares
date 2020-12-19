@@ -66,6 +66,11 @@
         </div>
       </div>
     </div>
+    <v-btn class="buttonPost mx-2" fab dark large color="teal">
+      <v-icon dark>
+        mdi-pencil
+      </v-icon>
+    </v-btn>
   </div>
 </template>
 
@@ -126,5 +131,12 @@ export default {
 <style scoped>
 .post {
   margin-bottom: 10px;
+}
+
+.buttonPost {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 1000;
 }
 </style>
