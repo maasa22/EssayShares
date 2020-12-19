@@ -59,8 +59,8 @@ export default {
         },
         {
           icon: "mdi-chart-bubble",
-          title: "Essay",
-          to: "/essay"
+          title: "Topic",
+          to: "/topic"
         },
         // {
         //   icon: "mdi-chart-bubble",

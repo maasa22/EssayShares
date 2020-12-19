@@ -65,12 +65,42 @@
           <p>{{ essay.topicNum }}</p> -->
         </div>
       </div>
+      <v-btn
+        class="buttonPost mx-2"
+        fab
+        dark
+        large
+        color="teal"
+        @click="postEssay"
+      >
+        <v-icon dark>
+          mdi-pencil
+        </v-icon>
+      </v-btn>
+
+      <v-row justify="center">
+        <v-dialog v-model="dialog" persistent max-width="290">
+          <v-card>
+            <v-card-title class="headline">
+              Let's sign in with google account
+            </v-card-title>
+            <v-card-text
+              >You have not signed in with this service. Let's sign in with
+              google account in order to post your essays.</v-card-text
+            >
+            <v-card-actions>
+              <v-spacer></v-spacer>
+              <v-btn color="green darken-1" text @click="googleLogin">
+                Sign in/Sign up
+              </v-btn>
+              <v-btn color="green darken-1" text @click="dialog = false">
+                Cancel
+              </v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-dialog>
+      </v-row>
     </div>
-    <v-btn class="buttonPost mx-2" fab dark large color="teal">
-      <v-icon dark>
-        mdi-pencil
-      </v-icon>
-    </v-btn>
   </div>
 </template>
 
@@ -79,8 +109,14 @@ import firebase from "@/plugins/firebase";
 export default {
   data() {
     return {
-      essays: []
+      essays: [],
+      isLogin: false,
+      dialog: false
     };
+  },
+  mounted() {
+    this.checkAuthStatus();
+    this.fetchEssays();
   },
   methods: {
     fetchEssays() {
@@ -98,10 +134,30 @@ export default {
         .catch(err => {
           console.log("Error getting documents", err);
         });
+    },
+    checkAuthStatus() {
+      firebase.auth().onAuthStateChanged(userAuth => {
+        if (userAuth) {
+          this.isLogin = true;
+        } else {
+          this.isLogin = false;
+        }
+      });
+    },
+    postEssay() {
+      if (this.isLogin == true) {
+        this.$router.push("/post");
+      } else {
+        this.dialog = true;
+        console.log("open dialogue");
+      }
+    },
+    googleLogin() {
+      this.dialog = false;
+      const provider = new firebase.auth.GoogleAuthProvider();
+      firebase.auth().signInWithRedirect(provider);
+      this.$router.push("/post");
     }
-  },
-  mounted() {
-    this.fetchEssays();
   },
   filters: {
     formatDate: function(value) {
