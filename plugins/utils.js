@@ -12,6 +12,14 @@ export default {
       // let time = year + "/" + month + "/" + date + " " + hour + ":" + min;
       let time = month + "/" + date + " " + hour + ":" + min;
       return time;
+        },
+        formatEssay: function(value) {
+      const shortEssayLength = 140;
+      if (value.length <= shortEssayLength) {
+        return value;
+      } else {
+        return value.substr(0, shortEssayLength - 1) + "...";
+      }
     }
     }
 }

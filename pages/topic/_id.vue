@@ -9,64 +9,39 @@
       <!-- {{ essays }} -->
       <div class="posts" v-for="essay in essays" :key="essay.id">
         <div class="post">
-          <v-card class="mx-auto" color="#26c6da" dark max-width="400">
-            <v-card-title>
-              <v-icon large left>
-                mdi-chart-bubble
-              </v-icon>
-              <span class="title font-weight-light"
-                >topic {{ essay.topicNum }}</span
-              >
-              <!-- <v-row align="center" justify="end">
-                <v-icon class="mr-1">
-                  mdi-square
+          <nuxt-link :to="{ path: '/essay/' + essay.essayId }">
+            <v-card class="mx-auto" color="#26c6da" dark max-width="400">
+              <v-card-title>
+                <v-icon large left>
+                  mdi-chart-bubble
                 </v-icon>
-                <span class="subheading mr-2">{{ essay.scoreSelf }}</span>
-              </v-row> -->
-            </v-card-title>
-
-            <v-card-text class="headline font-weight-bold">
-              "{{ essay.essay | formatEssay }}"
-            </v-card-text>
-
-            <v-card-actions>
-              <v-list-item class="grow">
-                <!-- <v-list-item-avatar color="grey darken-3">
-          <v-img
-            class="elevation-6"
-            alt=""
-            src="https://avataaars.io/?avatarStyle=Transparent&topType=ShortHairShortCurly&accessoriesType=Prescription02&hairColor=Black&facialHairType=Blank&clotheType=Hoodie&clotheColor=White&eyeType=Default&eyebrowType=DefaultNatural&mouthType=Default&skinColor=Light"
-          ></v-img>
-        </v-list-item-avatar> -->
-
-                <v-list-item-content>
-                  <v-list-item-title>{{ essay.displayName }}</v-list-item-title>
-                  <v-list-item-title>
-                    {{ essay.createdAt | formatDate }}</v-list-item-title
+                <nuxt-link :to="{ path: '/topic/' + essay.topicNum }">
+                  <span class="title font-weight-light hoge2"
+                    >topic {{ essay.topicNum }}</span
                   >
-                </v-list-item-content>
+                </nuxt-link>
+              </v-card-title>
 
-                <!-- <v-row
-          align="center"
-          justify="end"
-        >
-          <v-icon class="mr-1">
-            mdi-heart
-          </v-icon>
-          <span class="subheading mr-2">14</span>
-          <span class="mr-1">·</span>
-          <v-icon class="mr-1">
-            mdi-share-variant
-          </v-icon>
-          <span class="subheading">13</span>
-        </v-row> -->
-              </v-list-item>
-            </v-card-actions>
-          </v-card>
-          <!-- <p>{{ essay.author }}</p>
-          <p>{{ essay.essay }}</p>
-          <p>{{ essay.createdAt }}</p>
-          <p>{{ essay.topicNum }}</p> -->
+              <v-card-text class="headline font-weight-bold">
+                "{{ essay.essay | formatEssay }}"
+              </v-card-text>
+
+              <v-card-actions>
+                <v-list-item class="grow">
+                  <v-list-item-content>
+                    <nuxt-link :to="{ path: '/user/' + essay.author }">
+                      <v-list-item-title>{{
+                        essay.displayName
+                      }}</v-list-item-title>
+                    </nuxt-link>
+                    <v-list-item-title>
+                      {{ essay.createdAt | formatDate }}</v-list-item-title
+                    >
+                  </v-list-item-content>
+                </v-list-item>
+              </v-card-actions>
+            </v-card>
+          </nuxt-link>
         </div>
       </div>
       <v-btn
@@ -110,8 +85,10 @@
 <script>
 import essayTopicsJson from "static/csv/essayTopics";
 import firebase from "@/plugins/firebase";
+import utils from "@/plugins/utils";
 
 export default {
+  mixins: [utils],
   data() {
     return {
       essays: [],
@@ -185,28 +162,6 @@ export default {
       const provider = new firebase.auth.GoogleAuthProvider();
       firebase.auth().signInWithRedirect(provider);
       this.$router.push("/post");
-    }
-  },
-  filters: {
-    formatDate: function(value) {
-      let a = new Date(value.seconds * 1000);
-      let year = ("0000" + a.getFullYear()).slice(-4);
-      let month = ("00" + String(Number(a.getMonth()) + 1)).slice(-2);
-      let date = ("00" + a.getDate()).slice(-2);
-      let hour = ("00" + a.getHours()).slice(-2);
-      let min = ("00" + a.getMinutes()).slice(-2);
-      let sec = ("00" + a.getSeconds()).slice(-2);
-      // let time = year + "/" + month + "/" + date + " " + hour + ":" + min;
-      let time = month + "/" + date + " " + hour + ":" + min;
-      return time;
-    },
-    formatEssay: function(value) {
-      const shortEssayLength = 140;
-      if (value.length <= shortEssayLength) {
-        return value;
-      } else {
-        return value.substr(0, shortEssayLength - 1) + "...";
-      }
     }
   }
 };
