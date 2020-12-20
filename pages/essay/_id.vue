@@ -1,6 +1,8 @@
 <template>
   <div>
     <div v-if="!isWaiting">
+      <h1 class="tabTitle">Topic {{ topicNum }}</h1>
+      <p>{{ essayTitle }}</p>
       <nuxt-link :to="{ path: '/essay/' + essay.essayId }">
         <v-card class="mx-auto" color="#26c6da" dark>
           <v-card-title>
@@ -13,7 +15,6 @@
               >
             </nuxt-link>
           </v-card-title>
-
           <v-card-text class="headline font-weight-bold">
             "{{ essay.essay }}"
           </v-card-text>
@@ -39,6 +40,7 @@
 <script>
 import firebase from "@/plugins/firebase";
 import utils from "@/plugins/utils";
+import essayTopicsJson from "static/csv/essayTopics";
 
 export default {
   mixins: [utils],
@@ -46,6 +48,9 @@ export default {
     return {
       isWaiting: true,
       essayId: this.$route.path.split("essay/")[1],
+      essayTopics: essayTopicsJson,
+      essayTitle: "",
+      topicNum: null,
       essay: {}
     };
   },
@@ -88,6 +93,8 @@ export default {
             let essayId = doc.id;
             essay.essayId = essayId;
             this.essay = essay;
+            this.essayTitle = essayTopicsJson[essay.topicNum - 1].topic;
+            this.topicNum = essayTopicsJson[essay.topicNum - 1].topicNum;
             this.isWaiting = false;
           }
         })

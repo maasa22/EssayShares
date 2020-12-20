@@ -2,7 +2,6 @@
   <div>
     <h1 class="tabTitle">Timeline</h1>
     <div class="container1">
-      <!-- {{ essays }} -->
       <div class="posts" v-for="essay in essays" :key="essay.id">
         <div class="post">
           <nuxt-link :to="{ path: '/essay/' + essay.essayId }">
@@ -30,14 +29,6 @@
 
               <v-card-actions>
                 <v-list-item class="grow">
-                  <!-- <v-list-item-avatar color="grey darken-3">
-          <v-img
-            class="elevation-6"
-            alt=""
-            src="https://avataaars.io/?avatarStyle=Transparent&topType=ShortHairShortCurly&accessoriesType=Prescription02&hairColor=Black&facialHairType=Blank&clotheType=Hoodie&clotheColor=White&eyeType=Default&eyebrowType=DefaultNatural&mouthType=Default&skinColor=Light"
-          ></v-img>
-        </v-list-item-avatar> -->
-
                   <v-list-item-content>
                     <nuxt-link :to="{ path: '/user/' + essay.author }">
                       <v-list-item-title>{{
@@ -48,29 +39,10 @@
                       {{ essay.createdAt | formatDate }}</v-list-item-title
                     >
                   </v-list-item-content>
-
-                  <!-- <v-row
-          align="center"
-          justify="end"
-        >
-          <v-icon class="mr-1">
-            mdi-heart
-          </v-icon>
-          <span class="subheading mr-2">14</span>
-          <span class="mr-1">·</span>
-          <v-icon class="mr-1">
-            mdi-share-variant
-          </v-icon>
-          <span class="subheading">13</span>
-        </v-row> -->
                 </v-list-item>
               </v-card-actions>
             </v-card>
           </nuxt-link>
-          <!-- <p>{{ essay.author }}</p>
-          <p>{{ essay.essay }}</p>
-          <p>{{ essay.createdAt }}</p>
-          <p>{{ essay.topicNum }}</p> -->
         </div>
       </div>
       <v-btn
@@ -137,12 +109,7 @@ export default {
         .get()
         .then(snapshot => {
           snapshot.forEach(doc => {
-            // console.log("hoge");
-            // console.log(doc.id);
-            // console.log(doc.data());
             this.fetchEssayAuthors(doc);
-            // console.log(doc.id, "=>", doc.data());
-            // this.essays.push(doc.data());
           });
         })
         .catch(err => {
@@ -150,21 +117,15 @@ export default {
         });
     },
     fetchEssayAuthors(doc) {
-      // console.log("hoge");
-      // console.log(doc.id);
-      // console.log(doc.data());
-      console.log(doc.data().author);
       firebase
         .firestore()
         .collection("users")
         .doc(doc.data().author)
-        //.doc("hogehoge")
         .get()
         .then(doc2 => {
           if (!doc2.exists) {
             console.log("No such document!");
           } else {
-            // console.log("Document data:", doc2.data());
             let essay = doc.data();
             let displayName = doc2.data().displayName;
             essay.displayName = displayName;
@@ -176,19 +137,6 @@ export default {
         .catch(err => {
           console.log("Error getting document", err);
         });
-
-      // .then(snapshot => {
-      //   snapshot.forEach(doc2 => {
-      //     let displayName = doc2.data().displayName;
-      //     let essay = doc.data();
-      //     essay.displayName = displayName;
-      //     console.log(essay);
-      //     this.essays.push(essay);
-      //   });
-      // })
-      // .catch(err => {
-      //   console.log("Error getting documents", err);
-      // });
     },
     checkAuthStatus() {
       firebase.auth().onAuthStateChanged(userAuth => {
@@ -204,7 +152,6 @@ export default {
         this.$router.push("/post");
       } else {
         this.dialog = true;
-        console.log("open dialogue");
       }
     },
     googleLogin() {
