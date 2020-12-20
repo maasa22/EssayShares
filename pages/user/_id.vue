@@ -1,7 +1,7 @@
 <template>
   <div>
-    <h1 class="tabTitle">{{ author }}</h1>
-    <p>toefl score: 15</p>
+    <h1 class="tabTitle">{{ user.displayName }}</h1>
+    <p>toefl score: {{ user.toeflWritingCurrentScore }}</p>
     <h2>Recent Posts</h2>
     <div class="posts" v-for="essay in essays" :key="essay.id">
       <div class="post">
@@ -51,7 +51,8 @@ export default {
   data() {
     return {
       essays: [],
-      author: this.$route.path.split("user/")[1]
+      author: this.$route.path.split("user/")[1],
+      user: {}
     };
   },
   mounted() {
@@ -89,6 +90,7 @@ export default {
             let essayId = doc.id;
             essay.essayId = essayId;
             this.essays.push(essay);
+            this.user = doc2.data();
           }
         })
         .catch(err => {

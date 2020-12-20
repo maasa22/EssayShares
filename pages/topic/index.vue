@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1 class="tabTitle">185 Topics</h1>
+    <h1 class="tabTitle">TOEFL 185 Topics</h1>
     <v-container>
       <v-row class="grey lighten-3">
         <v-col

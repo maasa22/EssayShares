@@ -1,9 +1,6 @@
 <template>
   <div>
     <h1 class="tabTitle">About</h1>
-    <!-- <div class="underDeveloping">
-      <img src="under-construction.jpg" alt="" />
-    </div> -->
     <div>
       <p>This is a site for learing TOEFL Writing.<br /></p>
       <p>
@@ -15,6 +12,9 @@
         background -->
       </p>
     </div>
+    <!-- <div class="underDeveloping">
+      <img src="under-construction.jpg" alt="" />
+    </div> -->
   </div>
 </template>
 
