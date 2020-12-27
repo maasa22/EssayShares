@@ -66,7 +66,6 @@ export default {
   },
   mounted() {
     this.fetchEssays();
-    this.fetchTopic(this.topicNum);
   },
   methods: {
     fetchEssays() {
@@ -82,6 +81,7 @@ export default {
           } else {
             // this.essay = doc.data();
             this.fetchEssayAuthors(doc);
+            this.fetchTopic(doc.data().topicNum);
           }
         })
         .catch(err => {
