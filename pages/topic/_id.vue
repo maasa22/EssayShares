@@ -2,7 +2,8 @@
   <div>
     <h1 class="tabTitle">Topic {{ topicNum }}</h1>
     <div>
-      <p>{{ essayTopics[topicNum - 1]["topic"] }}</p>
+      <p>{{ topic }}</p>
+      <!-- <p>{{ essayTopics[topicNum - 1]["topic"] }}</p> -->
     </div>
     <h2>Recent Posts</h2>
     <div class="container1">
@@ -84,6 +85,7 @@
 
 <script>
 import essayTopicsJson from "static/csv/essayTopics";
+import essayTopicsJsonR from "static/csv/essayTopicsR";
 import firebase from "@/plugins/firebase";
 import utils from "@/plugins/utils";
 
@@ -94,6 +96,8 @@ export default {
       essays: [],
       topicNum: this.$route.path.split("topic/")[1],
       essayTopics: essayTopicsJson,
+      essayTopicsR: essayTopicsJsonR,
+      topic: "",
       isLogin: false,
       dialog: false
     };
@@ -101,6 +105,7 @@ export default {
   mounted() {
     this.checkAuthStatus();
     this.fetchEssays();
+    this.fetchTopic(this.topicNum);
   },
   methods: {
     fetchEssays() {
@@ -140,6 +145,22 @@ export default {
         .catch(err => {
           console.log("Error getting document", err);
         });
+    },
+    fetchTopic(topicNum) {
+      // topicが1~185かチェック。
+      let result = this.essayTopics.filter(function(value) {
+        return value.topicNum == topicNum;
+      });
+      if (result.length != 0) {
+        this.topic = result[0].topic;
+      }
+      // topicが他かチェック。
+      let resultR = this.essayTopicsR.filter(function(value) {
+        return value.topicNum == topicNum;
+      });
+      if (resultR.length != 0) {
+        this.topic = resultR[0].topic;
+      }
     },
     checkAuthStatus() {
       firebase.auth().onAuthStateChanged(userAuth => {

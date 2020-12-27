@@ -29,21 +29,26 @@
 <script>
 import firebase from "@/plugins/firebase";
 import { v4 as uuidv4 } from "uuid";
+import essayTopicsJson from "static/csv/essayTopics";
+import essayTopicsJsonR from "static/csv/essayTopicsR";
 
 export default {
   data() {
     return {
       topicNum: null,
-      topicNumOption: [...Array(186).keys()].slice(1),
+      topicNumOption: [],
       essay: "",
       isLogin: false,
       loginUserGoogle: [], //ログインしているユーザーの情報 from google
       loginUser: [], //ログインしているユーザーの情報 from firestore
-      isValidationError: false
+      isValidationError: false,
+      essayTopics: essayTopicsJson,
+      essayTopicsR: essayTopicsJsonR
     };
   },
   mounted() {
     this.checkAuthStatus();
+    this.fetchTopicNumOption();
   },
   methods: {
     fetchEssays() {
@@ -93,6 +98,12 @@ export default {
         .catch(err => {
           console.log("Error getting documents", err);
         });
+    },
+    fetchTopicNumOption() {
+      // let topics = [...Array(186).keys()].slice(1); // 1~185
+      let topics = essayTopicsJson.map(v => v.topicNum);
+      let topicsR = essayTopicsJsonR.map(v => v.topicNum);
+      this.topicNumOption = topics.concat(topicsR);
     },
     async postEssay() {
       if (!this.topicNum || !this.essay) {

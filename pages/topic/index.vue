@@ -36,17 +36,57 @@
         </v-col>
       </v-row>
     </v-container>
+    <div>
+      <h1 class="tabTitle">Other Topics</h1>
+      <!-- <p>{{ essayTopicsR }}</p> -->
+      <v-container>
+        <v-row class="grey lighten-3">
+          <v-col
+            cols="6"
+            sm="4"
+            md="4"
+            lg="2"
+            xl="2"
+            class="color1"
+            v-for="essayTopic in essayTopicsR"
+            :key="essayTopic.id"
+          >
+            <nuxt-link :to="{ path: '/topic/' + essayTopic.topicNum }">
+              <v-card
+                class="mx-auto"
+                color="#26c6da"
+                dark
+                max-width="400"
+                style="height: 140px"
+              >
+                <div>
+                  <p class="topicNum">topic {{ essayTopic.topicNum }}</p>
+                </div>
+                <div>
+                  <p class="topic">
+                    {{ essayTopic.topic }}
+                  </p>
+                </div>
+              </v-card>
+            </nuxt-link>
+          </v-col>
+        </v-row>
+      </v-container>
+    </div>
   </div>
 </template>
 <script>
 import essayTopicsJson from "static/csv/essayTopics";
+import essayTopicsJsonR from "static/csv/essayTopicsR";
 export default {
   data() {
     return {
       topicNums: Array(185)
         .fill(0)
         .map((v, i) => i + 1), // [1,2,3,4,,,185], なぜか [1]*185でも上手くいく模様。
-      essayTopics: essayTopicsJson
+      essayTopics: essayTopicsJson,
+      essayTopicsR: essayTopicsJsonR
+      // topicNumsR: essayTopicsJsonR.map(v => v.topicNum)
     };
   },
   mounted() {}
