@@ -16,7 +16,13 @@
               >
             </nuxt-link>
           </v-card-title>
-          <v-card-text class="headline font-weight-bold">
+          <!-- <v-card-text class="headline font-weight-bold">
+            "{{ essay.essay }}"
+          </v-card-text> -->
+          <v-card-text
+            class="headline font-weight-bold"
+            style="white-space:pre-wrap;"
+          >
             "{{ essay.essay }}"
           </v-card-text>
 

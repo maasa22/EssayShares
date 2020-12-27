@@ -138,6 +138,8 @@ export default {
           } else {
             let displayName = doc2.data().displayName;
             let essay = doc.data();
+            let essayId = doc.id;
+            essay.essayId = essayId;
             essay.displayName = displayName;
             this.essays.push(essay);
           }
