@@ -2,7 +2,8 @@
   <div>
     <div v-if="!isWaiting">
       <h1 class="tabTitle">Topic {{ topicNum }}</h1>
-      <p>{{ essayTitle }}</p>
+      <!-- <p>{{ essayTitle }}</p> -->
+      <p>{{ topic }}</p>
       <nuxt-link :to="{ path: '/essay/' + essay.essayId }">
         <v-card class="mx-auto" color="#26c6da" dark>
           <v-card-title>
@@ -41,6 +42,7 @@
 import firebase from "@/plugins/firebase";
 import utils from "@/plugins/utils";
 import essayTopicsJson from "static/csv/essayTopics";
+import essayTopicsJsonR from "static/csv/essayTopicsR";
 
 export default {
   mixins: [utils],
@@ -49,6 +51,8 @@ export default {
       isWaiting: true,
       essayId: this.$route.path.split("essay/")[1],
       essayTopics: essayTopicsJson,
+      essayTopicsR: essayTopicsJsonR,
+      topic: "",
       essayTitle: "",
       topicNum: null,
       essay: {}
@@ -56,6 +60,7 @@ export default {
   },
   mounted() {
     this.fetchEssays();
+    this.fetchTopic(this.topicNum);
   },
   methods: {
     fetchEssays() {
@@ -93,14 +98,31 @@ export default {
             let essayId = doc.id;
             essay.essayId = essayId;
             this.essay = essay;
-            this.essayTitle = essayTopicsJson[essay.topicNum - 1].topic;
-            this.topicNum = essayTopicsJson[essay.topicNum - 1].topicNum;
+            this.topicNum = essay.topicNum;
+            // this.essayTitle = essayTopicsJson[essay.topicNum - 1].topic;
+            // this.topicNum = essayTopicsJson[essay.topicNum - 1].topicNum;
             this.isWaiting = false;
           }
         })
         .catch(err => {
           console.log("Error getting document", err);
         });
+    },
+    fetchTopic(topicNum) {
+      // topicが1~185かチェック。
+      let result = this.essayTopics.filter(function(value) {
+        return value.topicNum == topicNum;
+      });
+      if (result.length != 0) {
+        this.topic = result[0].topic;
+      }
+      // topicが他かチェック。
+      let resultR = this.essayTopicsR.filter(function(value) {
+        return value.topicNum == topicNum;
+      });
+      if (resultR.length != 0) {
+        this.topic = resultR[0].topic;
+      }
     }
   }
 };
