@@ -64,6 +64,7 @@ export default {
         .firestore()
         .collection("essays")
         .where("author", "==", this.author)
+        .orderBy("createdAt", "desc")
         .get()
         .then(snapshot => {
           snapshot.forEach(doc => {

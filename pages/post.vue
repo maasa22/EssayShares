@@ -100,7 +100,7 @@ export default {
       } else {
         this.isValidationError = false;
         const data = {
-          topicNum: this.topicNum,
+          topicNum: this.topicNum.toString(),
           essay: this.essay,
           author: this.loginUser.id,
           createdAt: new Date()

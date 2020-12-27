@@ -109,7 +109,8 @@ export default {
       firebase
         .firestore()
         .collection("essays")
-        .where("topicNum", "==", parseInt(this.topicNum))
+        .where("topicNum", "==", this.topicNum)
+        .orderBy("createdAt", "desc")
         .get()
         .then(snapshot => {
           snapshot.forEach(doc => {

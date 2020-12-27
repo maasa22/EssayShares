@@ -106,6 +106,7 @@ export default {
       firebase
         .firestore()
         .collection("essays")
+        .orderBy("createdAt", "desc")
         .get()
         .then(snapshot => {
           snapshot.forEach(doc => {
