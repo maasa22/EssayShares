@@ -10,7 +10,22 @@ export default {
       { name: "viewport", content: "width=device-width, initial-scale=1" },
       { hid: "description", name: "description", content: "" }
     ],
-    link: [{ rel: "icon", type: "image/x-icon", href: "/favicon.ico" }]
+    link: [{
+      rel: "shortcut icon",
+      type: "image/x-icon",
+      href: "favicon2.ico"
+    },
+      {
+        rel: "apple-touch-icon",
+        href: "apple-touch-icon.png",
+        sizes: "180x180"
+      },
+      {
+        rel: "icon",
+        type: "image/png",
+        href: "android-touch-icon.png", sizes: "192x192"
+    }
+    ]
   },
 
   // Global CSS (https://go.nuxtjs.dev/config-css)
