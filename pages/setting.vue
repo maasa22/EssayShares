@@ -52,7 +52,7 @@
           </li>
           <li>
             <div>
-              <v-dialog v-model="dialog" persistent max-width="290">
+              <v-dialog v-model="dialogUnregister" persistent max-width="290">
                 <template v-slot:activator="{ on, attrs }">
                   <v-btn text color="primary" v-bind="attrs" v-on="on">
                     Unregister
@@ -67,7 +67,11 @@
                   </v-card-text>
                   <v-card-actions>
                     <v-spacer></v-spacer>
-                    <v-btn color="green darken-1" text @click="dialog = false">
+                    <v-btn
+                      color="green darken-1"
+                      text
+                      @click="dialogUnregister = false"
+                    >
                       Cancel
                     </v-btn>
                     <v-btn color="green darken-1" text @click="unregister">
@@ -92,7 +96,7 @@ export default {
       isLogin: false,
       loginUserGoogle: [], //ログインしているユーザーの情報 from google
       loginUser: [], //ログインしているユーザーの情報 from firestore,
-      dialog: false,
+      dialogUnregister: false,
       dialogLogOut: false
     };
   },
