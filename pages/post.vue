@@ -22,6 +22,10 @@
       <div>
         <v-btn @click="postEssay">Post</v-btn>
       </div>
+      <div>
+        <v-btn @click="postEssayAndTweet">Post & Tweet</v-btn>
+        <!-- checkboxにする。 -->
+      </div>
       <div v-if="isValidationError">
         <v-alert type="error">Input error</v-alert>
       </div>
@@ -124,7 +128,29 @@ export default {
           .collection("essays")
           .doc(uuidv4())
           .set(data);
+        // 5秒くらいsleepして、tweet buttonも表示するか。
         this.$router.push("/timeline");
+      }
+    },
+    async postEssayAndTweet() {
+      if (!this.topicNum || !this.essay) {
+        this.isValidationError = true;
+      } else {
+        this.isValidationError = false;
+        const data = {
+          topicNum: this.topicNum.toString(),
+          essay: this.essay,
+          author: this.loginUser.id,
+          createdAt: new Date()
+        };
+        const res = await firebase
+          .firestore()
+          .collection("essays")
+          .doc(uuidv4())
+          .set(data);
+        let link =
+          "https://twitter.com/share?text=TOEFLライティングを1つ書きました！&hashtags=essayShares";
+        open(link, "_blank");
       }
     },
     isWord(str) {
@@ -142,6 +168,9 @@ export default {
         }
       }
       return alphaNumericFound;
+    },
+    hoge() {
+      console.log("hoge!");
     }
   },
   computed: {
