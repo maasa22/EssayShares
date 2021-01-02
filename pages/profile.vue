@@ -72,6 +72,9 @@
         <!-- <p>
           toefl writing current score: {{ loginUser.toeflWritingCurrentScore }}
         </p> -->
+        <div>
+          <nuxt-link to="/setting/"> Setting </nuxt-link>
+        </div>
         <h2>Recent posts</h2>
 
         <div class="posts" v-for="essay in essays" :key="essay.id">
@@ -109,38 +112,6 @@
                 </v-card-actions>
               </v-card>
             </nuxt-link>
-          </div>
-        </div>
-
-        <div class="containerCenter">
-          <div>
-            <v-btn @click="logOut">Sign Out</v-btn>
-          </div>
-          <div>
-            <v-dialog v-model="dialog" persistent max-width="290">
-              <template v-slot:activator="{ on, attrs }">
-                <v-btn v-bind="attrs" v-on="on">
-                  Unregister
-                </v-btn>
-              </template>
-              <v-card>
-                <v-card-title class="headline">
-                  Unregistration
-                </v-card-title>
-                <v-card-text
-                  >When you tap this button, unregistration will be completed.
-                </v-card-text>
-                <v-card-actions>
-                  <v-spacer></v-spacer>
-                  <v-btn color="green darken-1" text @click="dialog = false">
-                    Cancel
-                  </v-btn>
-                  <v-btn color="green darken-1" text @click="unregister">
-                    Unregister
-                  </v-btn>
-                </v-card-actions>
-              </v-card>
-            </v-dialog>
           </div>
         </div>
       </div>
@@ -223,6 +194,7 @@ export default {
         .firestore()
         .collection("essays")
         .where("author", "==", id)
+        .orderBy("createdAt", "desc")
         .get()
         .then(snapshot => {
           snapshot.forEach(doc => {
@@ -323,33 +295,6 @@ export default {
     cancelEditingToeflWritingCurrentScore() {
       this.toeflWritingCurrentScore = null;
       this.isEditingToeflWritingCurrentScore = false;
-    },
-    logOut() {
-      firebase.auth().signOut();
-    },
-    unregister() {
-      firebase
-        .firestore()
-        .collection("users")
-        .where("mail", "==", this.loginUserGoogle.email)
-        .get()
-        .then(snapshot => {
-          if (snapshot.empty) {
-          }
-          snapshot.forEach(doc => {
-            console.log(doc.id);
-            console.log(doc.data());
-            firebase
-              .firestore()
-              .collection("users")
-              .doc(doc.id)
-              .delete();
-            this.$router.push("/timeline");
-          });
-        })
-        .catch(err => {
-          console.log("Error getting documents", err);
-        });
     }
   }
 };
