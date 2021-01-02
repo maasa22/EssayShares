@@ -54,12 +54,12 @@ export default {
         //   to: "/",
         // },
         {
-          icon: "mdi-chart-bubble",
+          icon: "mdi-clock-time-five-outline",
           title: "Timeline",
           to: "/timeline"
         },
         {
-          icon: "mdi-chart-bubble",
+          icon: "mdi-note-outline",
           title: "Topic",
           to: "/topic"
         },
@@ -69,7 +69,7 @@ export default {
         //   to: "/news"
         // },
         {
-          icon: "mdi-chart-bubble",
+          icon: "mdi-account-outline",
           title: "Profile",
           to: "/profile"
         }
