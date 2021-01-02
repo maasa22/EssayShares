@@ -10,10 +10,68 @@
       </div>
       <div v-else>
         <!-- <p>{{ loginUser.google.email }}</p> -->
-        <h2>{{ loginUser.displayName }}</h2>
-        <p>
+        <div v-if="isEditingDisplayName">
+          <v-text-field
+            v-model="displayName"
+            label="Display Name"
+          ></v-text-field>
+          <v-btn @click="updateDisplayName">
+            Update
+          </v-btn>
+          <v-btn class="cancel_btn" @click="cancelEditingDisplayName"
+            >Cancel</v-btn
+          >
+        </div>
+        <div v-else>
+          <div class="displayName">
+            {{ loginUser.displayName }}
+            <v-icon
+              @click="startEditingDisplayName"
+              middle
+              color="green darken-2"
+              class="edit_icon"
+            >
+              mdi-pencil
+            </v-icon>
+          </div>
+        </div>
+        <div v-if="isEditingToeflWritingCurrentScore">
+          <!-- <v-text-field
+            v-model="toeflWritingCurrentScore"
+            label="TOEFL best score"
+          ></v-text-field> -->
+          <v-select
+            v-model="toeflWritingCurrentScore"
+            :items="toeflWritingCurrentScoreOption"
+            label="TOEFL Writing Current Score"
+          ></v-select>
+          <v-btn @click="updateToeflWritingCurrentScore">
+            Update
+          </v-btn>
+          <v-btn
+            class="cancel_btn"
+            @click="cancelEditingToeflWritingCurrentScore"
+            >Cancel</v-btn
+          >
+        </div>
+        <div v-else>
+          <div class="toeflWritingCurrentScore">
+            TOEFL writing best score:
+            {{ loginUser.toeflWritingCurrentScore }}
+            <v-icon
+              @click="startEditingToeflWritingCurrentScore"
+              middle
+              color="green darken-2"
+              class="edit_icon"
+            >
+              mdi-pencil
+            </v-icon>
+          </div>
+        </div>
+        <!-- <h2>{{ loginUser.displayName }}</h2> -->
+        <!-- <p>
           toefl writing current score: {{ loginUser.toeflWritingCurrentScore }}
-        </p>
+        </p> -->
         <h2>Recent posts</h2>
 
         <div class="posts" v-for="essay in essays" :key="essay.id">
@@ -102,7 +160,45 @@ export default {
       essays: [],
       loginUserGoogle: [], //ログインしているユーザーの情報 from google
       loginUser: [], //ログインしているユーザーの情報 from firestore
-      dialog: false
+      dialog: false,
+      displayName: "",
+      isEditingDisplayName: false,
+      toeflWritingCurrentScore: null,
+      isEditingToeflWritingCurrentScore: false,
+      toeflWritingCurrentScoreOption: [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20,
+        21,
+        22,
+        23,
+        24,
+        25,
+        26,
+        27,
+        28,
+        29,
+        30,
+        "unset"
+      ]
     };
   },
   mounted: function() {
@@ -176,8 +272,8 @@ export default {
             this.$router.push("/register");
           }
           snapshot.forEach(doc => {
-            this.loginUser.id = doc.id;
             this.loginUser = doc.data();
+            this.loginUser.id = doc.id;
             this.loginUser.google = this.loginUserGoogle;
             this.fetchEssays(doc.id);
           });
@@ -185,6 +281,48 @@ export default {
         .catch(err => {
           console.log("Error getting documents", err);
         });
+    },
+    startEditingDisplayName() {
+      this.displayName = this.loginUser.displayName;
+      this.isEditingDisplayName = true;
+    },
+    async updateDisplayName() {
+      const data = {
+        displayName: this.displayName
+      };
+      const res = await firebase
+        .firestore()
+        .collection("users")
+        .doc(this.loginUser.id)
+        .set(data, { merge: true });
+      this.loginUser.displayName = this.displayName;
+      this.displayName = "";
+      this.isEditingDisplayName = false;
+    },
+    cancelEditingDisplayName() {
+      this.displayName = "";
+      this.isEditingDisplayName = false;
+    },
+    startEditingToeflWritingCurrentScore() {
+      this.toeflWritingCurrentScore = this.loginUser.toeflWritingCurrentScore;
+      this.isEditingToeflWritingCurrentScore = true;
+    },
+    async updateToeflWritingCurrentScore() {
+      const data = {
+        toeflWritingCurrentScore: this.toeflWritingCurrentScore
+      };
+      const res = await firebase
+        .firestore()
+        .collection("users")
+        .doc(this.loginUser.id)
+        .set(data, { merge: true });
+      this.loginUser.toeflWritingCurrentScore = this.toeflWritingCurrentScore;
+      this.toeflWritingCurrentScore = null;
+      this.isEditingToeflWritingCurrentScore = false;
+    },
+    cancelEditingToeflWritingCurrentScore() {
+      this.toeflWritingCurrentScore = null;
+      this.isEditingToeflWritingCurrentScore = false;
     },
     logOut() {
       firebase.auth().signOut();
@@ -216,3 +354,8 @@ export default {
   }
 };
 </script>
+<style scoped>
+.displayName {
+  font-size: 24px;
+}
+</style>
