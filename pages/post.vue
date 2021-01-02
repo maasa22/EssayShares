@@ -17,6 +17,9 @@
         ></v-textarea>
       </v-container>
       <div>
+        <p class="wordCount">{{ wordCount }} words</p>
+      </div>
+      <div>
         <v-btn @click="postEssay">Post</v-btn>
       </div>
       <div v-if="isValidationError">
@@ -123,7 +126,42 @@ export default {
           .set(data);
         this.$router.push("/timeline");
       }
+    },
+    isWord(str) {
+      var alphaNumericFound = false;
+      for (var i = 0; i < str.length; i++) {
+        var code = str.charCodeAt(i);
+        if (
+          (code > 47 && code < 58) || // numeric (0-9)
+          (code > 64 && code < 91) || // upper alpha (A-Z)
+          (code > 96 && code < 123)
+        ) {
+          // lower alpha (a-z)
+          alphaNumericFound = true;
+          return alphaNumericFound;
+        }
+      }
+      return alphaNumericFound;
+    }
+  },
+  computed: {
+    wordCount() {
+      let wordCount = 0;
+      let text = this.essay.split(" ");
+      for (let i = 0; i < text.length; i++) {
+        if (text[i] !== " " && this.isWord(text[i])) {
+          wordCount++;
+        }
+      }
+      return wordCount;
     }
   }
 };
 </script>
+<style scoped>
+.wordCount {
+  text-align: right;
+  padding: 0px 30px 0px 0px;
+  margin: -20px 0px 0px 0px;
+}
+</style>

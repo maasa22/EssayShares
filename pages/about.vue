@@ -7,7 +7,8 @@
         In this site, you can see many essays written by other English learners.
         Also, you can upload your own essays. This site covers 185 kinds of
         essay topics, which are previously published by ETS, an organization
-        running TOEFL tests.
+        running TOEFL tests. <br />
+        This website is still under construction, which is frequently updated.
         <!-- message
         background -->
       </p>
