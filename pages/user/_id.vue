@@ -40,6 +40,12 @@
         </nuxt-link>
       </div>
     </div>
+    <v-row @click="loadMore" v-show="showLoadMore" justify="center"
+      ><v-btn> Load More </v-btn></v-row
+    >
+    <v-row v-show="showEmpty" justify="center"
+      >You've seen all the documents.
+    </v-row>
   </div>
 </template>
 <script>
@@ -50,6 +56,9 @@ export default {
   mixins: [utils],
   data() {
     return {
+      showLoadMore: false,
+      showEmpty: false,
+      essayUnit: 10,
       essays: [],
       author: this.$route.path.split("user/")[1],
       user: {}
@@ -59,12 +68,13 @@ export default {
     this.fetchEssays();
   },
   methods: {
-    fetchEssays() {
-      firebase
+    async fetchEssays() {
+      await firebase
         .firestore()
         .collection("essays")
         .where("author", "==", this.author)
         .orderBy("createdAt", "desc")
+        .limit(this.essayUnit)
         .get()
         .then(snapshot => {
           snapshot.forEach(doc => {
@@ -74,6 +84,7 @@ export default {
         .catch(err => {
           console.log("Error getting documents", err);
         });
+      this.showLoadMore = true;
     },
     fetchEssayAuthors(doc) {
       firebase
@@ -96,6 +107,29 @@ export default {
         })
         .catch(err => {
           console.log("Error getting document", err);
+        });
+    },
+    loadMore() {
+      this.lastCreatedAt = this.essays[this.essays.length - 1].createdAt;
+      firebase
+        .firestore()
+        .collection("essays")
+        .where("author", "==", this.author)
+        .orderBy("createdAt", "desc")
+        .startAfter(this.lastCreatedAt)
+        .limit(this.essayUnit)
+        .get()
+        .then(snapshot => {
+          if (snapshot.empty) {
+            this.showLoadMore = false;
+            this.showEmpty = true;
+          }
+          snapshot.forEach(doc => {
+            this.fetchEssayAuthors(doc);
+          });
+        })
+        .catch(err => {
+          console.log("Error getting documents", err);
         });
     }
   }

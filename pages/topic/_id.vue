@@ -80,6 +80,12 @@
         </v-dialog>
       </v-row>
     </div>
+    <v-row @click="loadMore" v-show="showLoadMore" justify="center"
+      ><v-btn> Load More </v-btn></v-row
+    >
+    <v-row v-show="showEmpty" justify="center"
+      >You've seen all the documents.
+    </v-row>
   </div>
 </template>
 
@@ -93,6 +99,9 @@ export default {
   mixins: [utils],
   data() {
     return {
+      showLoadMore: false,
+      showEmpty: false,
+      essayUnit: 10,
       essays: [],
       topicNum: this.$route.path.split("topic/")[1],
       essayTopics: essayTopicsJson,
@@ -108,14 +117,15 @@ export default {
     this.fetchTopic(this.topicNum);
   },
   methods: {
-    fetchEssays() {
+    async fetchEssays() {
       //   this.essays = [];
       // console.log(parseInt(this.topicNum));
-      firebase
+      await firebase
         .firestore()
         .collection("essays")
         .where("topicNum", "==", this.topicNum)
         .orderBy("createdAt", "desc")
+        .limit(this.essayUnit)
         .get()
         .then(snapshot => {
           snapshot.forEach(doc => {
@@ -125,6 +135,7 @@ export default {
         .catch(err => {
           console.log("Error getting documents", err);
         });
+      this.showLoadMore = true;
     },
     fetchEssayAuthors(doc) {
       firebase
@@ -180,6 +191,29 @@ export default {
         this.dialog = true;
         console.log("open dialogue");
       }
+    },
+    loadMore() {
+      this.lastCreatedAt = this.essays[this.essays.length - 1].createdAt;
+      firebase
+        .firestore()
+        .collection("essays")
+        .where("topicNum", "==", this.topicNum)
+        .orderBy("createdAt", "desc")
+        .startAfter(this.lastCreatedAt)
+        .limit(this.essayUnit)
+        .get()
+        .then(snapshot => {
+          if (snapshot.empty) {
+            this.showLoadMore = false;
+            this.showEmpty = true;
+          }
+          snapshot.forEach(doc => {
+            this.fetchEssayAuthors(doc);
+          });
+        })
+        .catch(err => {
+          console.log("Error getting documents", err);
+        });
     },
     googleLogin() {
       this.dialog = false;

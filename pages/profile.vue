@@ -116,6 +116,12 @@
         </div>
       </div>
     </div>
+    <v-row @click="loadMore" v-show="showLoadMore" justify="center"
+      ><v-btn> Load More </v-btn></v-row
+    >
+    <v-row v-show="showEmpty" justify="center"
+      >You've seen all the documents.
+    </v-row>
   </div>
 </template>
 <script>
@@ -126,6 +132,9 @@ export default {
   mixins: [utils],
   data() {
     return {
+      showLoadMore: false,
+      showEmpty: false,
+      essayUnit: 10,
       isWaiting: true,
       isLogin: false,
       essays: [],
@@ -189,12 +198,35 @@ export default {
         this.isWaiting = false;
       });
     },
-    fetchEssays(id) {
-      firebase
+    fetchUserInfo() {
+      // console.log(this.loginUserGoogle.email);
+      let loginUser = firebase
+        .firestore()
+        .collection("users")
+        .where("mail", "==", this.loginUserGoogle.email)
+        .get()
+        .then(snapshot => {
+          if (snapshot.empty) {
+            this.$router.push("/register");
+          }
+          snapshot.forEach(doc => {
+            this.loginUser = doc.data();
+            this.loginUser.id = doc.id;
+            this.loginUser.google = this.loginUserGoogle;
+            this.fetchEssays(doc.id);
+          });
+        })
+        .catch(err => {
+          console.log("Error getting documents", err);
+        });
+    },
+    async fetchEssays(id) {
+      await firebase
         .firestore()
         .collection("essays")
         .where("author", "==", id)
         .orderBy("createdAt", "desc")
+        .limit(this.essayUnit)
         .get()
         .then(snapshot => {
           snapshot.forEach(doc => {
@@ -208,6 +240,7 @@ export default {
         .catch(err => {
           console.log("Error getting documents", err);
         });
+      this.showLoadMore = true;
     },
     // fetchEssayAuthors(doc) {
     //   firebase
@@ -232,22 +265,27 @@ export default {
     //       console.log("Error getting document", err);
     //     });
     // },
-    fetchUserInfo() {
-      // console.log(this.loginUserGoogle.email);
-      let loginUser = firebase
+    loadMore() {
+      this.lastCreatedAt = this.essays[this.essays.length - 1].createdAt;
+      firebase
         .firestore()
-        .collection("users")
-        .where("mail", "==", this.loginUserGoogle.email)
+        .collection("essays")
+        .where("author", "==", this.loginUser.id)
+        .orderBy("createdAt", "desc")
+        .startAfter(this.lastCreatedAt)
+        .limit(this.essayUnit)
         .get()
         .then(snapshot => {
           if (snapshot.empty) {
-            this.$router.push("/register");
+            this.showLoadMore = false;
+            this.showEmpty = true;
           }
           snapshot.forEach(doc => {
-            this.loginUser = doc.data();
-            this.loginUser.id = doc.id;
-            this.loginUser.google = this.loginUserGoogle;
-            this.fetchEssays(doc.id);
+            let essay = doc.data();
+            essay.displayName = this.loginUser.displayName;
+            let essayId = doc.id;
+            essay.essayId = essayId;
+            this.essays.push(essay);
           });
         })
         .catch(err => {

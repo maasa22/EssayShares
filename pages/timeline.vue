@@ -45,6 +45,12 @@
           </nuxt-link>
         </div>
       </div>
+      <v-row @click="loadMore" v-show="showLoadMore" justify="center"
+        ><v-btn> Load More </v-btn></v-row
+      >
+      <v-row v-show="showEmpty" justify="center"
+        >You've seen all the documents.
+      </v-row>
       <v-btn
         class="buttonPost mx-2"
         fab
@@ -91,9 +97,13 @@ export default {
   mixins: [utils],
   data() {
     return {
+      showLoadMore: false,
+      showEmpty: false,
+      essayUnit: 10,
       essays: [],
       isLogin: false,
-      dialog: false
+      dialog: false,
+      lastCreatedAt: null
     };
   },
   mounted() {
@@ -101,12 +111,13 @@ export default {
     this.fetchEssays();
   },
   methods: {
-    fetchEssays() {
+    async fetchEssays() {
       //   this.essays = [];
-      firebase
+      await firebase
         .firestore()
         .collection("essays")
         .orderBy("createdAt", "desc")
+        .limit(this.essayUnit)
         .get()
         .then(snapshot => {
           snapshot.forEach(doc => {
@@ -116,6 +127,12 @@ export default {
         .catch(err => {
           console.log("Error getting documents", err);
         });
+      // sleepほしい
+      this.showLoadMore = true;
+      // setTimeout(function() {
+      //   this.isWaiting = false;
+      //   console.log("hoge2");
+      // }, 100);
     },
     fetchEssayAuthors(doc) {
       firebase
@@ -154,6 +171,29 @@ export default {
       } else {
         this.dialog = true;
       }
+    },
+    loadMore() {
+      this.lastCreatedAt = this.essays[this.essays.length - 1].createdAt;
+      // orderBy("essay")を足して、("createdAt","essay")でカーソルを作るのもあり。
+      firebase
+        .firestore()
+        .collection("essays")
+        .orderBy("createdAt", "desc")
+        .startAfter(this.lastCreatedAt)
+        .limit(this.essayUnit)
+        .get()
+        .then(snapshot => {
+          if (snapshot.empty) {
+            this.showLoadMore = false;
+            this.showEmpty = true;
+          }
+          snapshot.forEach(doc => {
+            this.fetchEssayAuthors(doc);
+          });
+        })
+        .catch(err => {
+          console.log("Error getting documents", err);
+        });
     },
     googleLogin() {
       this.dialog = false;
