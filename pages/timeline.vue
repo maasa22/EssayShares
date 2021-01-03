@@ -127,12 +127,10 @@ export default {
         .catch(err => {
           console.log("Error getting documents", err);
         });
-      // sleepほしい
-      this.showLoadMore = true;
-      // setTimeout(function() {
-      //   this.isWaiting = false;
-      //   console.log("hoge2");
-      // }, 100);
+      // 完璧でないが、sleep機能。
+      setTimeout(() => {
+        this.showLoadMore = true;
+      }, 1000);
     },
     fetchEssayAuthors(doc) {
       firebase

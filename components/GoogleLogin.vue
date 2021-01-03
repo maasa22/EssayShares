@@ -4,6 +4,11 @@
       <v-btn x-large @click="googleLogin"
         >Sign in with Google account <br />Or Sign up</v-btn
       >
+      <v-row justify="center">
+        <nuxt-link to="/about/">
+          <v-btn text color="primary"> About page </v-btn>
+        </nuxt-link>
+      </v-row>
     </div>
   </div>
 </template>

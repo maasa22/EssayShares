@@ -135,7 +135,9 @@ export default {
         .catch(err => {
           console.log("Error getting documents", err);
         });
-      this.showLoadMore = true;
+      setTimeout(() => {
+        this.showLoadMore = true;
+      }, 1000);
     },
     fetchEssayAuthors(doc) {
       firebase
