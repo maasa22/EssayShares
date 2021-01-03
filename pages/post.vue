@@ -22,10 +22,7 @@
       <div>
         <v-btn @click="postEssay">Post</v-btn>
       </div>
-      <div>
-        <v-btn @click="postEssayAndTweet">Post & Tweet</v-btn>
-        <!-- checkboxにする。 -->
-      </div>
+      <!-- tweetする（checkbox） -->
       <div v-if="isValidationError">
         <v-alert type="error">Input error</v-alert>
       </div>
@@ -50,7 +47,8 @@ export default {
       loginUser: [], //ログインしているユーザーの情報 from firestore
       isValidationError: false,
       essayTopics: essayTopicsJson,
-      essayTopicsR: essayTopicsJsonR
+      essayTopicsR: essayTopicsJsonR,
+      postLink: "#"
     };
   },
   mounted() {
@@ -128,31 +126,14 @@ export default {
           .collection("essays")
           .doc(uuidv4())
           .set(data);
-        // 5秒くらいsleepして、tweet buttonも表示するか。
+        // safariだとwindow.openはブロックされる模様。
+        // const url =
+        //   "https://twitter.com/share?text=TOEFLライティングを1つ書きました！&hashtags=essayShares";
+        // window.open(url, "_blank");
         this.$router.push("/timeline");
       }
     },
-    async postEssayAndTweet() {
-      if (!this.topicNum || !this.essay) {
-        this.isValidationError = true;
-      } else {
-        this.isValidationError = false;
-        const data = {
-          topicNum: this.topicNum.toString(),
-          essay: this.essay,
-          author: this.loginUser.id,
-          createdAt: new Date()
-        };
-        const res = await firebase
-          .firestore()
-          .collection("essays")
-          .doc(uuidv4())
-          .set(data);
-        let link =
-          "https://twitter.com/share?text=TOEFLライティングを1つ書きました！&hashtags=essayShares";
-        open(link, "_blank");
-      }
-    },
+
     isWord(str) {
       var alphaNumericFound = false;
       for (var i = 0; i < str.length; i++) {

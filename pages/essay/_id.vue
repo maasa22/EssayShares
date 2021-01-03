@@ -14,7 +14,8 @@
         <v-btn text class="cancel_btn" @click="cancelEditingEssay"
           >Cancel</v-btn
         >
-        <v-dialog v-model="dialogDelete" persistent max-width="290">
+        <v-btn text class="cancel_btn" @click="deleteEssay">Delete</v-btn>
+        <!-- <v-dialog v-model="dialogDelete" persistent max-width="290">
           <template v-slot:activator="{ on, attrs }">
             <v-btn text v-bind="attrs" v-on="on">
               Delete
@@ -37,7 +38,7 @@
               </v-btn>
             </v-card-actions>
           </v-card>
-        </v-dialog>
+        </v-dialog> -->
       </div>
       <div v-else>
         <!-- hoge -->
@@ -115,8 +116,8 @@ export default {
       isLogin: false,
       loginUserGoogle: [], //ログインしているユーザーの情報 from google
       loginUser: [], //ログインしているユーザーの情報 from firestore,
-      isEditingEssay: false,
-      dialogDelete: false
+      isEditingEssay: false
+      // dialogDelete: false
     };
   },
   mounted() {
@@ -251,7 +252,6 @@ export default {
         .doc(this.essay.essayId)
         .delete();
       this.$router.push("/timeline");
-      console.log("hoge");
     }
   }
 };
