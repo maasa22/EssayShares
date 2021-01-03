@@ -112,27 +112,32 @@ export default {
         });
     },
     loadMore() {
-      this.lastCreatedAt = this.essays[this.essays.length - 1].createdAt;
-      firebase
-        .firestore()
-        .collection("essays")
-        .where("author", "==", this.author)
-        .orderBy("createdAt", "desc")
-        .startAfter(this.lastCreatedAt)
-        .limit(this.essayUnit)
-        .get()
-        .then(snapshot => {
-          if (snapshot.empty) {
-            this.showLoadMore = false;
-            this.showEmpty = true;
-          }
-          snapshot.forEach(doc => {
-            this.fetchEssayAuthors(doc);
+      if (this.essays.length == 0) {
+        this.showLoadMore = false;
+        this.showEmpty = true;
+      } else {
+        this.lastCreatedAt = this.essays[this.essays.length - 1].createdAt;
+        firebase
+          .firestore()
+          .collection("essays")
+          .where("author", "==", this.author)
+          .orderBy("createdAt", "desc")
+          .startAfter(this.lastCreatedAt)
+          .limit(this.essayUnit)
+          .get()
+          .then(snapshot => {
+            if (snapshot.empty) {
+              this.showLoadMore = false;
+              this.showEmpty = true;
+            }
+            snapshot.forEach(doc => {
+              this.fetchEssayAuthors(doc);
+            });
+          })
+          .catch(err => {
+            console.log("Error getting documents", err);
           });
-        })
-        .catch(err => {
-          console.log("Error getting documents", err);
-        });
+      }
     }
   }
 };
