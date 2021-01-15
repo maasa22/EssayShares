@@ -1,5 +1,39 @@
 <template>
   <div>
+    <h1 class="tabTitle">Recommend Topics</h1>
+    <v-container>
+      <v-row class="grey lighten-3">
+        <v-col
+          cols="6"
+          sm="4"
+          md="4"
+          lg="2"
+          xl="2"
+          class="color1"
+          v-for="essayTopic in recommendEssayTopics"
+          :key="essayTopic.id"
+        >
+          <nuxt-link :to="{ path: '/topic/' + essayTopic.topicNum }">
+            <v-card
+              class="mx-auto"
+              color="#26c6da"
+              dark
+              max-width="400"
+              style="height: 140px"
+            >
+              <div>
+                <p class="topicNum">topic {{ essayTopic.topicNum }}</p>
+              </div>
+              <div>
+                <p class="topic">
+                  {{ essayTopic.topic }}
+                </p>
+              </div>
+            </v-card>
+          </nuxt-link>
+        </v-col>
+      </v-row>
+    </v-container>
     <h1 class="tabTitle">TOEFL 185 Topics</h1>
     <v-container>
       <v-row class="grey lighten-3">
@@ -10,10 +44,10 @@
           lg="2"
           xl="2"
           class="color1"
-          v-for="topicNum in topicNums"
-          :key="topicNum.id"
+          v-for="essayTopic in essayTopics"
+          :key="essayTopic.id"
         >
-          <nuxt-link :to="{ path: '/topic/' + topicNum }">
+          <nuxt-link :to="{ path: '/topic/' + essayTopic.topicNum }">
             <v-card
               class="mx-auto"
               color="#26c6da"
@@ -22,13 +56,11 @@
               style="height: 140px"
             >
               <div>
-                <p class="topicNum">topic {{ topicNum }}</p>
+                <p class="topicNum">topic {{ essayTopic.topicNum }}</p>
               </div>
               <div>
                 <p class="topic">
-                  <!-- university purpose hoge hoge hoge hoge hoge hoge hoge hoge hoge
-                hoge hoge hoge -->
-                  {{ essayTopics[topicNum - 1]["topic"] }}
+                  {{ essayTopic.topic }}
                 </p>
               </div>
             </v-card>
@@ -36,43 +68,41 @@
         </v-col>
       </v-row>
     </v-container>
-    <div>
-      <h1 class="tabTitle">Other Topics</h1>
-      <!-- <p>{{ essayTopicsR }}</p> -->
-      <v-container>
-        <v-row class="grey lighten-3">
-          <v-col
-            cols="6"
-            sm="4"
-            md="4"
-            lg="2"
-            xl="2"
-            class="color1"
-            v-for="essayTopic in essayTopicsR"
-            :key="essayTopic.id"
-          >
-            <nuxt-link :to="{ path: '/topic/' + essayTopic.topicNum }">
-              <v-card
-                class="mx-auto"
-                color="#26c6da"
-                dark
-                max-width="400"
-                style="height: 140px"
-              >
-                <div>
-                  <p class="topicNum">topic {{ essayTopic.topicNum }}</p>
-                </div>
-                <div>
-                  <p class="topic">
-                    {{ essayTopic.topic }}
-                  </p>
-                </div>
-              </v-card>
-            </nuxt-link>
-          </v-col>
-        </v-row>
-      </v-container>
-    </div>
+    <h1 class="tabTitle">Daily Topics</h1>
+    <!-- <p>{{ essayTopicsR }}</p> -->
+    <v-container>
+      <v-row class="grey lighten-3">
+        <v-col
+          cols="6"
+          sm="4"
+          md="4"
+          lg="2"
+          xl="2"
+          class="color1"
+          v-for="essayTopic in essayTopicsR"
+          :key="essayTopic.id"
+        >
+          <nuxt-link :to="{ path: '/topic/' + essayTopic.topicNum }">
+            <v-card
+              class="mx-auto"
+              color="#26c6da"
+              dark
+              max-width="400"
+              style="height: 140px"
+            >
+              <div>
+                <p class="topicNum">topic {{ essayTopic.topicNum }}</p>
+              </div>
+              <div>
+                <p class="topic">
+                  {{ essayTopic.topic }}
+                </p>
+              </div>
+            </v-card>
+          </nuxt-link>
+        </v-col>
+      </v-row>
+    </v-container>
   </div>
 </template>
 <script>
@@ -85,7 +115,15 @@ export default {
         .fill(0)
         .map((v, i) => i + 1), // [1,2,3,4,,,185], なぜか [1]*185でも上手くいく模様。
       essayTopics: essayTopicsJson,
-      essayTopicsR: essayTopicsJsonR
+      essayTopicsR: essayTopicsJsonR,
+      recommendEssayTopics: [
+        essayTopicsJsonR[4], //C5
+        essayTopicsJsonR[2], //C3
+        essayTopicsJson[2], //3
+        essayTopicsJsonR[3], //C4
+        essayTopicsJsonR[1], //C2
+        essayTopicsJson[0] //1
+      ]
       // topicNumsR: essayTopicsJsonR.map(v => v.topicNum)
     };
   },
