@@ -117,17 +117,33 @@ export default {
       essayTopics: essayTopicsJson,
       essayTopicsR: essayTopicsJsonR,
       recommendEssayTopics: [
-        essayTopicsJsonR[4], //C5
-        essayTopicsJsonR[2], //C3
-        essayTopicsJson[2], //3
-        essayTopicsJsonR[3], //C4
         essayTopicsJsonR[1], //C2
-        essayTopicsJson[0] //1
+        essayTopicsJsonR[2], //C3
+        essayTopicsJsonR[3], //C4
+        essayTopicsJsonR[4], //C5
+        essayTopicsJsonR[5], //C6
+        essayTopicsJson[0], //1
+        essayTopicsJson[2] //3
       ]
       // topicNumsR: essayTopicsJsonR.map(v => v.topicNum)
     };
   },
-  mounted() {}
+  methods: {
+    shuffle(array) {
+      for (let i = array.length - 1; i >= 0; i--) {
+        let rand = Math.floor(Math.random() * (i + 1));
+        // 配列の数値を入れ替える
+        [array[i], array[rand]] = [array[rand], array[i]];
+      }
+      return array;
+    }
+  },
+  created() {
+    this.recommendEssayTopics = this.shuffle(this.recommendEssayTopics).slice(
+      0,
+      6
+    );
+  }
 };
 </script>
 <style scoped>

@@ -3,12 +3,12 @@ import colors from "vuetify/es5/util/colors";
 export default {
   // Global page headers (https://go.nuxtjs.dev/config-head)
   head: {
-    titleTemplate: "%s - EssayShares",
+    // titleTemplate: "%s - EssayShares",
     title: "EssayShares",
     meta: [
       { charset: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { hid: "description", name: "description", content: "英語ライティング/エッセイ共有サイト" },
+      { hid: "description", name: "description", content: "英語ライティング・英語エッセイ共有ウェブアプリ" },
       { name: "google-site-verification", content: "04zYgkBTBKgaqj1CPZTCM0XlxGwBizdRDxW9arXFhtw" }
     ],
     link: [{
