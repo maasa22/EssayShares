@@ -188,7 +188,7 @@ export default {
     },
     gotoPostPage() {
       if (this.isLogin == true) {
-        this.$router.push("/post");
+        this.$router.push("/post/" + this.topicNum);
       } else {
         this.dialog = true;
         console.log("open dialogue");
