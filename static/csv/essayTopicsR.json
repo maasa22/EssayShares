@@ -18,5 +18,25 @@
   {
     "topicNum" : "C5",
     "topic" : "Favorite Movie"
+  },
+  {
+    "topicNum" : "C6",
+    "topic" : "Favorite Things to do"
+  },
+  {
+    "topicNum" : "C7",
+    "topic" : "Favorite Movie Genre"
+  },
+  {
+    "topicNum" : "C8",
+    "topic" : "Disliked Chores"
+  },
+  {
+    "topicNum" : "C9",
+    "topic" : "Favorite Color"
+  },
+  {
+    "topicNum" : "C10",
+    "topic" : "Disliked Person"
   }
 ]

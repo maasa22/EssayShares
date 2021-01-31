@@ -8,7 +8,8 @@ export default {
     meta: [
       { charset: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { hid: "description", name: "description", content: "" }
+      { hid: "description", name: "description", content: "英語ライティング/エッセイ共有サイト" },
+      { name: "google-site-verification", content: "04zYgkBTBKgaqj1CPZTCM0XlxGwBizdRDxW9arXFhtw" }
     ],
     link: [{
       rel: "shortcut icon",

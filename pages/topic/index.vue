@@ -68,7 +68,7 @@
         </v-col>
       </v-row>
     </v-container>
-    <h1 class="tabTitle">Daily Topics</h1>
+    <h1 class="tabTitle">Conversational Topics</h1>
     <!-- <p>{{ essayTopicsR }}</p> -->
     <v-container>
       <v-row class="grey lighten-3">
